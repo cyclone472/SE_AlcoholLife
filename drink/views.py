@@ -8,19 +8,20 @@ from drink.serializers import *
 
 # Create your views here.
 @api_view(['GET'])
-def get_item_by_name(request, type, drink_name):
+def get_item_by_name(request, drink_name):
 	print('drink name is : {0}'.format(drink_name))
-	if type == 'soju':
-		target = get_object_or_404(Soju, name=drink_name)
-		drink_data = SojuSerializer(target)
-	elif type == 'beer':
-		target = get_object_or_404(Beer, name=drink_name)
-		drink_data = BeerSerializer(target)
-	elif type == 'makgeolli':
-		target = get_object_or_404(Makgeolli, name=drink_name)
-		drink_data = MakgeolliSerializer(target)
+	target = get_object_or_404(Drink, name=drink_name)
+	drink_data = DrinkSerializer(target)
 
-	print('how can i do this?')
+	url = 'https://allife-drink.s3.ap-northeast-2.amazonaws.com/{0}/{1}.jpg' \
+		.format(type, drink_name)
 	return Response({'code': status.HTTP_200_OK,
-					'result' : drink_data.data},
+					'result' : drink_data.data,
+					'image' : url},
 					status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def add_category(request):
+	new_post1 = Category.objects.create(name='Soju')
+	new_post2 = Category.objects.create(name='Beer')
+	new_post3 = Category.objects.create(name='Makgeolli')

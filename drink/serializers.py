@@ -3,6 +3,11 @@ from rest_framework import serializers
 from drink.models import *
 from django.contrib.auth.models import User
 
+class DrinkSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Drink
+		fields = ('category', 'name', 'ABV', 'capacity', 'company', 'image')
+'''
 class SojuSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Soju
@@ -17,5 +22,5 @@ class MakgeolliSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Makgeolli
 		fields = ('name', 'ABV', 'capacity', 'company', 'image')
-
+'''
 
