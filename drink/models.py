@@ -6,7 +6,7 @@ class Category(models.Model):
 	name = models.CharField(max_length=30)
 
 class Drink(models.Model):
-	category = models.ForeignField(Category, on_delete=models.CASCADE)
+	category = models.ForeignKey(Category, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100)
 	ABV = models.FloatField()
 	capacity = models.PositiveIntegerField()

@@ -142,14 +142,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# AWS Setting
-'''
-AWS_REGION = ap-northeast-2
-AWS_STORAGE_BUCKET_NAME = allife-drink
-AWS_ACCESS_KEY_ID = AKIA6ENAYBKDNN6DDN2K
-AWS_SECRET_ACCESS_KEY = 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
-
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-'''
