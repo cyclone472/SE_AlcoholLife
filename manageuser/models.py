@@ -6,7 +6,7 @@ from drink.models import *
 # Create your models here.
 class Review(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    rating = models.DecimalField(decimal_places=1, max_value=5, min_value=0)
+    rating = models.DecimalField(decimal_places=1, max_digits=2)
     drink = models.ForeignKey(Drink, on_delete=models.CASCADE)
     content = models.TextField(blank=True)
     comment_count = models.PositiveIntegerField(default=0)

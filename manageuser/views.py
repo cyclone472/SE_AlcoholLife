@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from drink.models import *
 from rest_framework import serializers
@@ -19,7 +19,7 @@ def manage_user(request):
 		return Response(status=status.HTTP_200_OK)
 	# change user's password
 	elif request.method == "PUT":
-		u = User.objects.get(username=reqBody['name'])
+		u = get_object_or_404(User, username=reqBody['name'])
 		u.set_password(reqBody['new_password'])
 		u.save()
 		return Response(status=status.HTTP_200_OK)

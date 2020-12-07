@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class DrinkSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Drink
-		fields = ('name', 'ABV', 'capacity', 'company')
+		fields = ('name', 'ABV', 'capacity', 'company', 'image')
 '''
 class SojuSerializer(serializers.ModelSerializer):
 	class Meta:
