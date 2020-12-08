@@ -26,7 +26,7 @@ def get_item_by_name(request, drink_name):
 	print(type(drink_data.data))
 	print(dict(drink_data.data)['name'])
 	ret = dict(drink_data.data)
-	ret['image'] = get_url(category.name, target.name)
+	ret['image'] = get_url(category.name, target.image)
 	return Response({'code': status.HTTP_200_OK,
 					'result' : ret},
 					status=status.HTTP_200_OK)
@@ -45,7 +45,7 @@ def get_items(request, category):
 	for drink in list(qs.values()):
 		elem = {}
 		elem['name'] = drink['name']
-		elem['image'] = get_url(category, drink['name'])
+		elem['image'] = get_url(category, drink['image'])
 		elem['rating'] = random.randrange(6, 10) / 2
 		elem['ABV'] = drink['ABV']
 		ret.append(elem)
