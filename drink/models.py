@@ -12,6 +12,7 @@ class Drink(models.Model):
 	capacity = models.PositiveIntegerField()
 	image = models.CharField(max_length=100, blank=True)
 	company = models.CharField(max_length=100)
+	rating = models.DecimalField(decimal_places=1, max_digits=2, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 

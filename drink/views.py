@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from drink.models import *
+from manageuser.models import *
 from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -46,11 +47,48 @@ def get_items(request, category):
 		elem = {}
 		elem['name'] = drink['name']
 		elem['image'] = get_url(category, drink['image'])
-		elem['rating'] = random.randrange(6, 10) / 2
+		elem['rating'] = drink['rating']
 		elem['ABV'] = drink['ABV']
 		ret.append(elem)
 	return Response({'code': status.HTTP_200_OK,
 					'result' : ret},
+					status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_reviews_for_drink(request, drink_name):
+	drink = get_object_or_404(Drink, name=drink_name)
+	drink_data = DrinkSerializer(drink)
+	
+	try:
+		qs = Review.objects.filter(drink_id=drink.id)
+	except Review.DoesNotExist:
+		return Response({'message': 'Review does not exist.'}, status=status.HTTP_200_OK)
+	
+	ret = []
+	for review in list(qs.values()):
+		elem = {}
+		author = User.objects.get(id=review['author_id'])
+		elem['review_id'] = review['id']
+		elem['username'] = author.username
+		elem['rating'] = review['rating']
+		elem['content'] = review['content']
+		elem['comment_count'] = review['comment_count']
+		ret.append(elem)
+	return Response({'code': status.HTTP_200_OK,
+					'result' : ret},
+					status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_review(request, review_id):
+	review = get_object_or_404(Review, id=review_id)
+	drink = Drink.objects.get(id=review.drink.id)
+	author = User.objects.get(id=review.author.id)
+
+	return Response({'username' : author.username,
+					'rating' : review.rating,
+					'drink' : drink.name,
+					'content' : review.content,
+					'comment_count' : review.comment_count},
 					status=status.HTTP_200_OK)
 
 @api_view(['POST'])
@@ -81,3 +119,18 @@ def add_drink(request):
 				instance.save()
 	print('SUCCESS!')
 	return Response(status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def add_rating(request):
+	qs = Drink.objects.all()
+
+	# for drink in list(qs.values()):
+	for drink in qs:
+		print(type(drink))
+		print(drink)
+		drink.rating = random.randrange(4, 10) / 2
+		drink.save()
+	return Response({'result' : 'SUCCESS!'},
+					status=status.HTTP_200_OK)
+
+
